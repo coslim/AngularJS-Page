@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+	<head>
+		<meta charset="UTF-8">
+		<title>AngularJS3-分页--bootstrap样式</title>
+		<!-- 新 Bootstrap 核心 CSS  page 分页 文件 -->
+		<link rel="stylesheet" href="page-repeat/bootstrap-page.css">
+		<script type="text/javascript" src="../js/angular.min.js" ></script>
+		<script type="text/javascript" src="get_data.js"></script>
+	</head>
+
+	<body>
+		<div id="divMain">
+			<table class="table table-bordered">
+				<tr>
+					<!--<th ng-repeat="(x,y) in items[0]">{{ x }}</th>-->
+					<th>index</th>
+					<th>id</th>
+					<th>title</th>
+					<th></th>
+					<th>type</th>
+					<th></th>
+					<th>state</th>
+				</tr>
+				<tr ng-repeat="x in solutionInfoList">
+					<td>{{ $index + 1 }}</td>
+					<td ng-bind="x.id"></td>
+					<td ng-bind="x.title"></td>
+					<td></td>
+					<td ng-bind="x.type" align="center"></td>
+					<td></td>
+					<td ng-bind="x.state" align="right"></td>
+				</tr>
+			</table>
+			<nav>
+				<ul class="pagination">
+					<li>
+						<a ng-click="Previous()">
+							<span>上一页</span>
+						</a>
+					</li>
+					<li ng-repeat="page in pageList" ng-class="{active: isActivePage(page)}">
+						<a ng-click="selectPage(page)">{{ page }}</a>
+					</li>
+					<li>
+						<a ng-click="Next()">
+							<span>下一页</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+	</body>
+
+</html>

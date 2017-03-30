@@ -1,0 +1,3 @@
+AngularJs 实现html转义
+	获取json的值进行html转义
+	注意：json的内容 中不能存在""  (后面还有，htm转义的)

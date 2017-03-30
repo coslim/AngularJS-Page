@@ -1,0 +1,2 @@
+AngularJs 实现简单分页 
+	取list的值进行分页

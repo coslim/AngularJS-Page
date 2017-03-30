@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html ng-app="demoApp">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>AngularJS分页-1--list</title>
+		<style>
+			ul>li {
+				list-style: none;
+				width: 400px;
+				height: 40px;
+				border: 1px solid #2A73F9;
+				margin-bottom: 4px;
+				padding-left: 5px;
+			}
+			
+			.nextLink,
+			.prevLink {
+				font-size: 12px;
+				line-height: 24px;
+				height: 24px;
+				border: solid 1px #aaa;
+				color: #999;
+				padding: 0 9px;
+				margin: 0 0 0 5px;
+				list-style: none;
+				background: #f2f2f2;
+				float: left;
+				cursor: pointer;
+			}
+			
+			a.prevLink:hover,
+			a.nextLink:hover {
+				background: #aaa !important;
+				color: #fff !important;
+				cursor: pointer;
+			}
+			
+			.step {
+				display: block;
+				line-height: 24px;
+				height: 24px;
+				border: solid 1px #aaa;
+				color: #999;
+				background: #fff;
+				padding: 0 9px;
+				font-size: 12px;
+				float: left;
+				margin: 0 0 0 5px;
+				list-style: none;
+				cursor: pointer;
+			}
+			
+			.currentStep {
+				border-color: #fff;
+				padding: 0 4px;
+				color: #f90;
+				font-weight: bold;
+				float: left;
+				display: block;
+				line-height: 24px;
+				height: 24px;
+				padding: 0 9px;
+				font-size: 12px;
+				float: left;
+				margin: 0 0 0 5px;
+				list-style: none;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div ng-controller="demoCtrl">
+			<div>
+				<ul>
+					<li ng-repeat="sentences in Lists[0].name | paging:currentPage*listsPerPage | limitTo:listsPerPage">{{sentences}}</li>
+					<!-- ng-repeat 动态生成模拟的数据 -->
+				</ul>
+			</div>
+			<div style=" margin-left: 50px;">
+				<a class="step prevLink" ng-click="prevPage()">上一页</a>
+				<a ng-class="{true:'currentStep',false:'step'}[num==currentPage]" ng-repeat="num in pageNum" ng-click="setPage(num)">{{num+1}}</a>
+				<!-- ng-repeat 动态生成页码 -->
+				<a class="step nextLink" ng-click="nextPage()">下一页</a>
+			</div>
+		</div>
+		<script src="../js/angular.min.js"></script>
+		<!-- 引入你的 angularJs 文件 -->
+		<script>
+			var demoApp = angular.module('demoApp', []);
+			demoApp.filter('paging', function() { //paging 过滤器
+				return function(lists, start) {
+					//两个参数 lists 是在 html 里你ng-repeat的原始数据：
+					// start 也就是 paging 后面传的参数，即 currentPage*listsPerPage
+					return lists.slice(start); //将原始数据按照 start 分割
+				};
+			});
+
+			demoApp.controller('demoCtrl', ['$scope', function($scope) { //页面控制器
+				$scope.Lists = [ //模拟数据
+					{
+						name: [
+							'AngularJs 实现简单分页  ---- Lists[0]',
+							'AngularJs 实现简单分页  ---- Lists[1]',
+							'AngularJs 实现简单分页  ---- Lists[2]',
+							'AngularJs 实现简单分页  ---- Lists[3]',
+							'AngularJs 实现简单分页  ---- Lists[4]',
+							'AngularJs 实现简单分页  ---- Lists[5]',
+							'AngularJs 实现简单分页  ---- Lists[6]',
+							'AngularJs 实现简单分页  ---- Lists[7]',
+							'AngularJs 实现简单分页  ---- Lists[8]',
+							'AngularJs 实现简单分页  ---- Lists[9]',
+							'AngularJs 实现简单分页  ---- Lists[10]',
+							'AngularJs 实现简单分页  ---- Lists[11]',
+							'AngularJs 实现简单分页  ---- Lists[12]',
+							'AngularJs 实现简单分页  ---- Lists[13]',
+							'AngularJs 实现简单分页  ---- Lists[14]',
+							'AngularJs 实现简单分页  ---- Lists[15]',
+							'AngularJs 实现简单分页  ---- Lists[16]',
+							'AngularJs 实现简单分页  ---- Lists[17]',
+							'AngularJs 实现简单分页  ---- Lists[18]',
+							'AngularJs 实现简单分页  ---- Lists[19]',
+							'AngularJs 实现简单分页  ---- Lists[20]',
+							'AngularJs 实现简单分页  ---- Lists[21]',
+							'AngularJs 实现简单分页  ---- Lists[22]',
+							'AngularJs 实现简单分页  ---- Lists[23]'
+						]
+					}
+				];
+				$scope.dataNum = $scope.Lists[0].name.length; //获得数据总个数
+				$scope.pages = Math.ceil($scope.dataNum / 3); //按照每页显示3个数据，得到总页数
+				$scope.pageNum = []; //生成页码，在 html里 ng-repeat 出来
+				for(var i = 0; i < $scope.pages; i++) {
+					$scope.pageNum.push(i);
+				}
+
+				$scope.currentPage = 0; //设置当前页是 0
+				$scope.listsPerPage = 3; //设置每页显示 3 个  ----根据自己需要设置
+
+				$scope.setPage = function(num) { // 当点击页码数字时执行的函数
+					$scope.currentPage = num; //将当前页 设置为 页码数
+				}
+
+				$scope.prevPage = function() { //点击上一页执行的函数
+					if($scope.currentPage > 0) {
+						$scope.currentPage--;
+					}
+				}
+				$scope.nextPage = function() { //点击下一页执行的函数
+					if($scope.currentPage < $scope.pages - 1) {
+						$scope.currentPage++;
+					}
+				}
+			}]);
+		</script>
+	</body>
+
+</html>

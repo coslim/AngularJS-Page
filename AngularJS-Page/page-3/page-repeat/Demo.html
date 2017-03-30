@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Demo</title>
+	</head>
+	<script type="text/javascript" src="../../js/angular.min.js" ></script>
+	
+	<body ng-app="myApp" ng-controller="myCtrl" >
+		<div style=" font-size: 17px; font-family: '微软雅黑'; width: 800px; height:  auto; margin: 0 auto; border: dashed 2px red; padding: 10px 20px;">
+			<p>angular ng-include 加分页加载.</p>
+			<p>使用了 bootstrap的分页样式[bootstrap-page.css]</p>
+			<p>点击[标题栏中] 三个按钮  实现属性筛选！</p>
+			<p>(1).点击 '全部显示',所有数据分页</p>
+			<p>(2).点击 '筛选type值为0的',type=0 的数据分页</p>
+			<p>(3).点击 '筛选type值为1的', type=1 所有数据分页</p>
+			<hr>
+			<p>以下显示的内容为 include 引用的页面内容</p>
+			<div  ng-include src="'test.html'" title="这是include第一个页面"></div>
+		</div>
+	</body>
+	<!-- angular.min.js引用 必须放在 get_demo_data 文件指引 -->
+	<script type="text/javascript" src="get_demo_data.js"></script>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>AngularJS-2--json|HTML转义</title>
+	</head>
+	<style>
+		.panel-heading h4 b{
+			font: "微软雅黑";
+			color: #FF0000;
+		}
+		.panel-body{
+			border: 1px solid #2A73F9;
+			min-height: 20px;
+			margin: 10px 2px;
+		}
+		
+	</style>
+	
+	<script type="text/javascript" src="../js/angular.min.js"></script>
+
+	<body>
+		<div ng-app="myApp" ng-controller="studentController">
+			<div ng-repeat="student in students">
+				<div class="panel-heading">
+					<h4>
+						<b>{{student.title}}</b>
+						&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+						<a>id是：{{student.id}}</a>
+					</h4>
+				</div>
+				<div class="panel-body" ng-bind-html="student.content | trustHtml">
+					
+				</div>
+			</div>
+		</div>
+		<script>
+			var app = angular.module('myApp', []);
+			app.controller('studentController', function($scope, $http) {
+				var url = "content.json";
+				//注意  json 文件中不能出现 引号  ""
+				$http.get(url).success(function(response) {
+					$scope.students = response;
+					console.log(response);
+				});
+			});
+			app.filter('trustHtml', function($sce) {
+				return function(input) {
+					return $sce.trustAsHtml(input);
+				}
+			});
+		</script>
+	</body>
+
+</html>
